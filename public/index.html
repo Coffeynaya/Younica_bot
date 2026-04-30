@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechCraft — Создаём цифровые продукты</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#" class="logo">
+        <span class="logo__icon">⚡</span>
+        <span class="logo__text">TechCraft</span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#services" class="nav__link">Услуги</a>
+        <a href="#about" class="nav__link">О нас</a>
+        <a href="#portfolio" class="nav__link">Портфолио</a>
+        <a href="#contact" class="nav__link">Контакты</a>
+      </nav>
+      <button class="btn btn--primary nav__cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+        Обсудить проект
+      </button>
+      <button class="burger" id="burger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="container hero__inner">
+      <div class="hero__badge">Более 200 успешных проектов</div>
+      <h1 class="hero__title">
+        Создаём <span class="gradient-text">цифровые продукты</span><br />
+        которые работают
+      </h1>
+      <p class="hero__subtitle">
+        Разрабатываем веб-сайты, мобильные приложения и умных чат-ботов,<br />
+        помогающих вашему бизнесу расти быстрее
+      </p>
+      <div class="hero__actions">
+        <button class="btn btn--primary btn--lg" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+          Смотреть услуги
+        </button>
+        <button class="btn btn--outline btn--lg" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+          Связаться с нами
+        </button>
+      </div>
+      <div class="hero__stats">
+        <div class="stat">
+          <span class="stat__number">200+</span>
+          <span class="stat__label">Проектов</span>
+        </div>
+        <div class="stat__divider"></div>
+        <div class="stat">
+          <span class="stat__number">8+</span>
+          <span class="stat__label">Лет опыта</span>
+        </div>
+        <div class="stat__divider"></div>
+        <div class="stat">
+          <span class="stat__number">98%</span>
+          <span class="stat__label">Довольных клиентов</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__label">Что мы делаем</span>
+        <h2 class="section__title">Наши услуги</h2>
+        <p class="section__desc">Полный цикл разработки от идеи до запуска</p>
+      </div>
+      <div class="services__grid">
+        <div class="service-card">
+          <div class="service-card__icon">🌐</div>
+          <h3 class="service-card__title">Веб-разработка</h3>
+          <p class="service-card__text">Создаём быстрые, современные и удобные сайты любой сложности: от лендингов до корпоративных порталов.</p>
+          <ul class="service-card__list">
+            <li>Лендинги и сайты-визитки</li>
+            <li>Интернет-магазины</li>
+            <li>Корпоративные порталы</li>
+          </ul>
+        </div>
+        <div class="service-card service-card--accent">
+          <div class="service-card__icon">📱</div>
+          <h3 class="service-card__title">Мобильные приложения</h3>
+          <p class="service-card__text">Разрабатываем нативные и кроссплатформенные приложения для iOS и Android с продуманным UX.</p>
+          <ul class="service-card__list">
+            <li>iOS и Android</li>
+            <li>React Native / Flutter</li>
+            <li>Интеграция с бэкендом</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <div class="service-card__icon">🤖</div>
+          <h3 class="service-card__title">Чат-боты</h3>
+          <p class="service-card__text">Разрабатываем и интегрируем умных чат-ботов для вашего сайта, Telegram, WhatsApp или VK.</p>
+          <ul class="service-card__list">
+            <li>Боты для поддержки клиентов</li>
+            <li>Боты для продаж</li>
+            <li>Интеграция с CRM</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <div class="service-card__icon">🎨</div>
+          <h3 class="service-card__title">UI/UX Дизайн</h3>
+          <p class="service-card__text">Создаём интерфейсы, которые нравятся пользователям и увеличивают конверсию.</p>
+          <ul class="service-card__list">
+            <li>Прототипирование</li>
+            <li>Дизайн-системы</li>
+            <li>Юзабилити-тестирование</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <div class="service-card__icon">📊</div>
+          <h3 class="service-card__title">Аналитика и SEO</h3>
+          <p class="service-card__text">Помогаем анализировать поведение пользователей и улучшать позиции в поисковых системах.</p>
+          <ul class="service-card__list">
+            <li>Настройка метрик</li>
+            <li>SEO-аудит</li>
+            <li>A/B тестирование</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <div class="service-card__icon">🔧</div>
+          <h3 class="service-card__title">Техподдержка</h3>
+          <p class="service-card__text">Обеспечиваем стабильную работу вашего продукта: мониторинг, обновления, оперативное устранение проблем.</p>
+          <ul class="service-card__list">
+            <li>24/7 мониторинг</li>
+            <li>Регулярные обновления</li>
+            <li>SLA-гарантии</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section section--alt" id="about">
+    <div class="container about__inner">
+      <div class="about__content">
+        <span class="section__label">Наша история</span>
+        <h2 class="section__title">О компании TechCraft</h2>
+        <p class="about__text">
+          Мы основаны в 2015 году группой разработчиков, объединённых одной целью — создавать цифровые продукты, которые реально помогают бизнесу. За 8 лет мы выросли из маленькой студии в команду из 40 специалистов.
+        </p>
+        <p class="about__text">
+          Наши клиенты — стартапы и крупные корпорации, розничные магазины и банки, образовательные платформы и медицинские сервисы. Мы знаем, что у каждого бизнеса свои задачи, и подходим к каждому проекту индивидуально.
+        </p>
+        <div class="about__badges">
+          <span class="badge">🏆 Top 10 Web Studio 2023</span>
+          <span class="badge">⭐ 4.9/5 на Clutch</span>
+          <span class="badge">🚀 Google Partner</span>
+        </div>
+      </div>
+      <div class="about__visual">
+        <div class="about__card">
+          <div class="about__card-number">40+</div>
+          <div class="about__card-label">Специалистов в команде</div>
+        </div>
+        <div class="about__card about__card--offset">
+          <div class="about__card-number">15</div>
+          <div class="about__card-label">Наград и сертификатов</div>
+        </div>
+        <div class="about__card">
+          <div class="about__card-number">12</div>
+          <div class="about__card-label">Стран — клиентов</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section class="section" id="portfolio">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__label">Наши работы</span>
+        <h2 class="section__title">Портфолио</h2>
+        <p class="section__desc">Избранные проекты последних лет</p>
+      </div>
+      <div class="portfolio__grid">
+        <div class="portfolio-item portfolio-item--wide">
+          <div class="portfolio-item__img portfolio-item__img--1"></div>
+          <div class="portfolio-item__overlay">
+            <span class="portfolio-item__tag">Веб-приложение</span>
+            <h3 class="portfolio-item__title">E-commerce платформа</h3>
+            <p class="portfolio-item__desc">Маркетплейс с 50 000+ товаров и интеграцией с 1С</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-item__img portfolio-item__img--2"></div>
+          <div class="portfolio-item__overlay">
+            <span class="portfolio-item__tag">Мобильное приложение</span>
+            <h3 class="portfolio-item__title">FinTech кошелёк</h3>
+            <p class="portfolio-item__desc">iOS/Android приложение для управления финансами</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-item__img portfolio-item__img--3"></div>
+          <div class="portfolio-item__overlay">
+            <span class="portfolio-item__tag">Чат-бот</span>
+            <h3 class="portfolio-item__title">HR-бот для найма</h3>
+            <p class="portfolio-item__desc">Автоматизация подбора персонала с ИИ-фильтрацией</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-item__img portfolio-item__img--4"></div>
+          <div class="portfolio-item__overlay">
+            <span class="portfolio-item__tag">Корпоративный портал</span>
+            <h3 class="portfolio-item__title">B2B платформа</h3>
+            <p class="portfolio-item__desc">Портал для управления заказами и документооборотом</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-item__img portfolio-item__img--5"></div>
+          <div class="portfolio-item__overlay">
+            <span class="portfolio-item__tag">EdTech</span>
+            <h3 class="portfolio-item__title">Образовательная платформа</h3>
+            <p class="portfolio-item__desc">LMS система с видеолекциями и проверкой знаний</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section section--alt" id="contact">
+    <div class="container contact__inner">
+      <div class="contact__content">
+        <span class="section__label">Свяжитесь с нами</span>
+        <h2 class="section__title">Обсудим ваш проект</h2>
+        <p class="contact__text">Оставьте заявку и мы свяжемся с вами в течение одного рабочего часа</p>
+        <div class="contact__info">
+          <div class="contact__info-item">
+            <span class="contact__info-icon">📧</span>
+            <div>
+              <div class="contact__info-label">Email</div>
+              <a href="mailto:info@example.com" class="contact__info-value">info@example.com</a>
+            </div>
+          </div>
+          <div class="contact__info-item">
+            <span class="contact__info-icon">📞</span>
+            <div>
+              <div class="contact__info-label">Телефон</div>
+              <a href="tel:+78001234567" class="contact__info-value">+7 (800) 123-45-67</a>
+            </div>
+          </div>
+          <div class="contact__info-item">
+            <span class="contact__info-icon">⏰</span>
+            <div>
+              <div class="contact__info-label">Режим работы</div>
+              <span class="contact__info-value">Пн–Пт: 9:00 – 18:00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form class="contact__form" id="contactForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="name">Ваше имя *</label>
+          <input class="form-input" id="name" type="text" placeholder="Иван Иванов" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Email *</label>
+          <input class="form-input" id="email" type="email" placeholder="ivan@example.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="phone">Телефон</label>
+          <input class="form-input" id="phone" type="tel" placeholder="+7 (___) ___-__-__" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="message">Расскажите о проекте *</label>
+          <textarea class="form-input form-textarea" id="message" placeholder="Кратко опишите вашу задачу..." required></textarea>
+        </div>
+        <button class="btn btn--primary btn--full" type="submit">
+          Отправить заявку
+        </button>
+        <div class="form__success" id="formSuccess">
+          ✅ Заявка отправлена! Свяжемся с вами в ближайшее время.
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="#" class="logo">
+          <span class="logo__icon">⚡</span>
+          <span class="logo__text">TechCraft</span>
+        </a>
+        <p class="footer__tagline">Создаём цифровые продукты с 2015 года</p>
+      </div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <h4 class="footer__col-title">Услуги</h4>
+          <a href="#services">Веб-разработка</a>
+          <a href="#services">Мобильные приложения</a>
+          <a href="#services">Чат-боты</a>
+          <a href="#services">UI/UX Дизайн</a>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">Компания</h4>
+          <a href="#about">О нас</a>
+          <a href="#portfolio">Портфолио</a>
+          <a href="#contact">Контакты</a>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">Соцсети</h4>
+          <a href="#">Telegram</a>
+          <a href="#">VKontakte</a>
+          <a href="#">GitHub</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <span>© 2015–2026 TechCraft. Все права защищены.</span>
+        <span>Лицензия: AGPL-3.0</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CHAT WIDGET -->
+  <div class="chat-widget" id="chatWidget">
+    <div class="chat-window" id="chatWindow" aria-live="polite" role="dialog" aria-label="Чат с поддержкой">
+      <div class="chat-header">
+        <div class="chat-header__avatar">
+          <span>🤖</span>
+          <span class="chat-header__status"></span>
+        </div>
+        <div class="chat-header__info">
+          <div class="chat-header__name">Виртуальный ассистент</div>
+          <div class="chat-header__subtitle">Онлайн • Отвечает мгновенно</div>
+        </div>
+        <button class="chat-close" id="chatClose" aria-label="Закрыть чат">✕</button>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-welcome">
+          <div class="chat-welcome__icon">👋</div>
+          <div class="chat-welcome__text">
+            <strong>Привет! Я виртуальный ассистент TechCraft.</strong><br />
+            Готов ответить на ваши вопросы об услугах, ценах и многом другом.
+          </div>
+        </div>
+        <div class="chat-suggestions">
+          <button class="chat-suggestion" data-text="Услуги">Услуги</button>
+          <button class="chat-suggestion" data-text="Цены">Цены</button>
+          <button class="chat-suggestion" data-text="Контакты">Контакты</button>
+          <button class="chat-suggestion" data-text="Режим работы">Режим работы</button>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <input
+          class="chat-input"
+          id="chatInput"
+          type="text"
+          placeholder="Напишите сообщение..."
+          maxlength="500"
+          autocomplete="off"
+        />
+        <button class="chat-send" id="chatSend" aria-label="Отправить">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="chat-toggle" id="chatToggle" aria-label="Открыть чат">
+      <span class="chat-toggle__icon chat-toggle__icon--open">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </span>
+      <span class="chat-toggle__icon chat-toggle__icon--close" style="display:none">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </span>
+      <span class="chat-toggle__badge" id="chatBadge">1</span>
+    </button>
+  </div>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>
