@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Younica Bot помогает посетителям сайта быстро получить ответы и перейти к диалогу с ботом."
+    >
+    <title>Younica Bot</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="/" aria-label="Younica Bot">
+        <span class="logo__mark">Y</span>
+        <span>Younica Bot</span>
+      </a>
+      <nav class="site-nav" aria-label="Основная навигация">
+        <a href="#features">Возможности</a>
+        <a href="#integration">Интеграция</a>
+        <a href="#contact">Связаться</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero__content">
+          <p class="eyebrow">Бот уже на сайте</p>
+          <h1>Подключите Younica Bot к клиентскому пути без лишних переходов</h1>
+          <p class="hero__lead">
+            Плавающий виджет в правом нижнем углу помогает посетителям задать вопрос,
+            получить быстрый ответ через API или открыть диалог с ботом в Telegram.
+          </p>
+          <div class="hero__actions">
+            <button class="button button--primary" type="button" data-open-bot>
+              Открыть бота
+            </button>
+            <a class="button button--ghost" href="#integration">Как настроить</a>
+          </div>
+        </div>
+        <div class="hero__card" aria-label="Пример диалога">
+          <div class="chat-preview">
+            <div class="chat-preview__bubble chat-preview__bubble--bot">
+              Здравствуйте! Я Younica Bot. Чем могу помочь?
+            </div>
+            <div class="chat-preview__bubble chat-preview__bubble--user">
+              Хочу узнать, как подключить бота к сайту.
+            </div>
+            <div class="chat-preview__bubble chat-preview__bubble--bot">
+              Нажмите на виджет и задайте вопрос прямо здесь.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <p class="eyebrow">Что добавлено</p>
+        <h2>Готовая точка входа для посетителей</h2>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>Виджет на всех страницах</h3>
+            <p>
+              Скрипт можно подключить к любой странице сайта, а кнопка открытия
+              остается доступной поверх контента.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>API или Telegram</h3>
+            <p>
+              Если указан API endpoint, сообщения отправляются на сервер. Если нет,
+              посетителю показывается кнопка перехода к Telegram-боту.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Без сборки</h3>
+            <p>
+              Интеграция работает как обычные HTML, CSS и JavaScript-файлы, поэтому
+              сайт можно разместить на любом статическом хостинге.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section--split" id="integration">
+        <div>
+          <p class="eyebrow">Настройка</p>
+          <h2>Укажите endpoint вашего бота</h2>
+          <p>
+            Внизу страницы подключен файл <code>bot-widget.js</code>. Для реального
+            бота замените значения <code>data-api-endpoint</code> и
+            <code>data-bot-url</code> на свои.
+          </p>
+        </div>
+        <pre class="code-block"><code>&lt;script
+  src="./bot-widget.js"
+  data-api-endpoint="https://example.com/api/bot"
+  data-bot-url="https://t.me/younica_bot"
+  defer&gt;&lt;/script&gt;</code></pre>
+      </section>
+
+      <section class="section contact" id="contact">
+        <p class="eyebrow">Поддержка</p>
+        <h2>Начните диалог с Younica Bot</h2>
+        <p>
+          Нажмите на кнопку виджета в правом нижнем углу или используйте кнопку ниже,
+          чтобы открыть встроенный чат.
+        </p>
+        <button class="button button--primary" type="button" data-open-bot>
+          Написать боту
+        </button>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 Younica Bot</span>
+      <a href="#integration">Инструкция по интеграции</a>
+    </footer>
+
+    <script
+      src="./bot-widget.js"
+      data-api-endpoint=""
+      data-bot-url="https://t.me/younica_bot"
+      defer
+    ></script>
+  </body>
+</html>
