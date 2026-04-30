@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сайт с ботом</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, Arial, sans-serif;
+        color: #0f172a;
+        background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+      }
+
+      .container {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 48px 20px 120px;
+      }
+
+      h1 {
+        margin-bottom: 12px;
+      }
+
+      .card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+      }
+
+      code {
+        background: #f1f5f9;
+        border-radius: 6px;
+        padding: 1px 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Добро пожаловать!</h1>
+      <section class="card">
+        <p>На сайт интегрирован чат-бот: кнопка чата отображается в правом нижнем углу.</p>
+        <p>
+          Для подключения к вашему backend измените параметр
+          <code>window.BOT_WIDGET_CONFIG.apiUrl</code>.
+        </p>
+      </section>
+    </main>
+
+    <script>
+      window.BOT_WIDGET_CONFIG = {
+        enabled: true,
+        apiUrl: "/api/bot",
+        title: "Поддержка",
+        welcomeMessage: "Привет! Я бот сайта. Задайте ваш вопрос.",
+        sendButtonLabel: "Отправить",
+        placeholder: "Напишите сообщение...",
+        themeColor: "#4f46e5",
+        position: "right"
+      };
+    </script>
+    <script src="./bot-widget.js"></script>
+  </body>
+</html>
