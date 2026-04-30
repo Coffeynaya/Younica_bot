@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Younica - сайт с быстрым доступом к Telegram-боту для консультаций и поддержки."
+    >
+    <title>Younica Bot</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="page-shell header-inner">
+        <a class="brand" href="/" aria-label="Younica">
+          <span class="brand-mark" aria-hidden="true">Y</span>
+          <span>Younica</span>
+        </a>
+        <nav class="nav" aria-label="Основная навигация">
+          <a href="#features">Возможности</a>
+          <a href="#how-it-works">Как это работает</a>
+          <a data-bot-link href="https://t.me/Younica_bot" target="_blank" rel="noopener noreferrer">
+            Запустить бота
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="hero" id="bot">
+        <div>
+          <p class="eyebrow">Telegram-бот Younica</p>
+          <h1>Получайте помощь и ответы прямо в боте</h1>
+          <p class="hero-text">
+            Запустите Younica Bot, чтобы быстро связаться с сервисом, получить подсказки
+            и продолжить работу в привычном Telegram-интерфейсе.
+          </p>
+          <div class="hero-actions">
+            <a
+              class="button button-primary"
+              data-bot-link
+              href="https://t.me/Younica_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Открыть бота
+            </a>
+            <a class="button button-secondary" href="#features">Узнать больше</a>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Пример диалога с Telegram-ботом">
+          <div class="chat-preview">
+            <p class="message bot">Здравствуйте! Я бот Younica. Чем могу помочь?</p>
+            <p class="message user">Хочу быстро получить консультацию.</p>
+            <p class="message bot">Откройте диалог в Telegram: <strong data-bot-name>@Younica_bot</strong>.</p>
+            <div class="quick-actions" aria-label="Примеры быстрых действий">
+              <span>Консультация</span>
+              <span>Поддержка</span>
+              <span>Вопросы</span>
+              <span>Контакты</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" id="features">
+        <div class="section-heading">
+          <p class="eyebrow">Что внутри</p>
+          <h2>Бот встроен в ключевые точки сайта</h2>
+          <p>
+            Посетители видят понятные призывы к действию на первом экране, в навигации
+            и в плавающем виджете, который остается доступным при прокрутке.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>Быстрый старт</h3>
+            <p>Кнопки на первом экране и в меню сразу открывают диалог с ботом.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Постоянный доступ</h3>
+            <p>Плавающий виджет остается под рукой на всех экранах сайта.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Простая настройка</h3>
+            <p>Ссылка на бота задается в одном конфиге и применяется ко всем CTA.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="how-it-works">
+        <div class="bot-panel">
+          <div>
+            <p class="eyebrow">Сценарий</p>
+            <h2>Переход без лишних шагов</h2>
+            <p>
+              Пользователь нажимает кнопку на сайте, открывает Telegram с ботом Younica
+              и продолжает диалог в привычном мессенджере.
+            </p>
+          </div>
+          <a
+            class="button button-primary"
+            data-bot-link
+            href="https://t.me/Younica_bot"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Перейти в Telegram
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-shell footer-inner">
+        <span>Younica Bot</span>
+        <a data-bot-link href="https://t.me/Younica_bot" target="_blank" rel="noopener noreferrer">
+          <span data-bot-name>@Younica_bot</span>
+        </a>
+      </div>
+    </footer>
+
+    <script src="./bot-widget.js" defer></script>
+  </body>
+</html>
