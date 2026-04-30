@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Younica — сайт с ботом</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <h1>Younica</h1>
+      <p>
+        На сайте подключён бот-помощник. Нажмите на кнопку чата в правом нижнем углу,
+        чтобы открыть диалог.
+      </p>
+      <a class="cta" id="botLink" href="#" target="_blank" rel="noopener noreferrer">
+        Открыть бота в Telegram
+      </a>
+    </section>
+  </main>
+
+  <button class="bot-toggle" id="botToggle" type="button" aria-expanded="false" aria-controls="botPanel">
+    Написать боту
+  </button>
+
+  <section class="bot-panel" id="botPanel" aria-hidden="true">
+    <header class="bot-panel__header">
+      <strong>Бот-помощник</strong>
+      <button class="bot-panel__close" id="botClose" type="button" aria-label="Закрыть">×</button>
+    </header>
+    <div class="bot-panel__body">
+      <p>Чат с ботом открывается в Telegram.</p>
+      <a class="cta" id="botPanelLink" href="#" target="_blank" rel="noopener noreferrer">
+        Перейти в чат
+      </a>
+    </div>
+  </section>
+
+  <script src="./bot-widget.js"></script>
+</body>
+</html>
