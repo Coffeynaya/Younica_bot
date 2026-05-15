@@ -1,47 +1,40 @@
-# TechCraft — Website with Integrated Chatbot
+# Younica Media Group — Сайт с ботом-консультантом
 
-A modern company website with a built-in chat widget powered by a Node.js/Express bot API.
+Сайт медиа-группы Younica с встроенным чат-ботом, который консультирует посетителей и подводит разговор к записи на бесплатный созвон с менеджером.
 
-## Features
+## Что делает бот
 
-- **Modern responsive website** — hero, services, about, portfolio, contact sections
-- **Integrated chat widget** — floating chat button, animated window, typing indicator
-- **Bot API** — rule-based bot supporting Russian and English, with intents for greetings, services, pricing, contacts, working hours, and more
-- **Rate limiting** — protects the `/api/chat` endpoint (30 requests/minute per IP)
-- **Smooth UX** — scroll animations, active nav highlighting, mobile burger menu
+- Отвечает на вопросы об услугах (SMM, видео, реклама, сайты, боты)
+- Рассказывает о компании, кейсах и контактах
+- **Каждый ответ подводит к записи на бесплатный созвон с менеджером**
+- Собирает данные для заявки: имя, способ связи, задачу
 
-## Quick Start
+## Быстрый старт (локально)
 
 ```bash
-# Install dependencies
+# Установить зависимости
 npm install
 
-# Start the server
-npm start
-```
-
-Then open [http://localhost:3000](http://localhost:3000).
-
-For development with auto-reload:
-
-```bash
+# Запустить в режиме разработки (с авто-перезагрузкой)
 npm run dev
 ```
 
-## Project Structure
+Открыть [http://localhost:3000](http://localhost:3000).
+
+## Структура проекта
 
 ```
 ├── server/
-│   ├── index.js      # Express server
-│   └── bot.js        # Bot logic and intent matching
+│   ├── index.js      # Express-сервер (API + статика)
+│   └── bot.js        # Логика бота (интенты, ответы, воронка к созвону)
 ├── public/
-│   ├── index.html    # Main page
+│   ├── index.html    # Главная страница сайта
 │   ├── css/
-│   │   ├── style.css # Website styles
-│   │   └── chat.css  # Chat widget styles
+│   │   ├── style.css # Стили сайта
+│   │   └── chat.css  # Стили виджета чата
 │   └── js/
-│       ├── main.js   # Website interactivity
-│       └── chat.js   # Chat widget logic
+│       ├── main.js   # Интерактивность сайта
+│       └── chat.js   # Логика чат-виджета
 ├── package.json
 └── .env.example
 ```
@@ -50,26 +43,48 @@ npm run dev
 
 ### `POST /api/chat`
 
-Send a message to the bot.
+Отправить сообщение боту.
 
-**Request body:**
+**Тело запроса:**
 ```json
-{ "message": "Привет" }
+{ "message": "Какие услуги вы предлагаете?" }
 ```
 
-**Response:**
+**Ответ:**
 ```json
 {
-  "reply": "Привет! Рад вас видеть! Чем могу помочь?",
-  "intent": "greetings",
-  "timestamp": "2026-04-30T07:15:00.000Z"
+  "reply": "Younica Media Group работает по нескольким направлениям...",
+  "intent": "services",
+  "timestamp": "2026-05-15T12:00:00.000Z"
 }
 ```
 
 ### `GET /api/health`
 
-Returns server uptime and status.
+Проверка состояния сервера.
 
-## License
+## Деплой
+
+Подробные инструкции по запуску на продакшне — см. раздел ниже или спросите в PR.
+
+### Вариант 1: Railway (рекомендуется для быстрого запуска)
+
+1. Зарегистрироваться на [railway.app](https://railway.app)
+2. Создать новый проект из GitHub-репозитория
+3. Railway автоматически определит Node.js и запустит `npm start`
+4. Получить публичный URL
+
+### Вариант 2: VPS/сервер
+
+```bash
+git clone <repo-url>
+cd Younica_bot
+npm install
+PORT=3000 node server/index.js
+```
+
+Использовать PM2 или systemd для процесс-менеджмента, Nginx для reverse-proxy.
+
+## Лицензия
 
 AGPL-3.0
