@@ -130,9 +130,17 @@ async function answerUserQuestion(ctx, { db, txt }) {
 
   addTgMessage(db, userId, "user", txt);
 
+  const historyLines = chatHistory
+    .slice(-6)
+    .map(m => (m.role === "user" ? "Клиент" : "Ассистент") + ": " + m.text)
+    .join("\n");
+  const questionForLlm = historyLines
+    ? historyLines + "\nКлиент: " + txt + "\n\nОтветь на последнее сообщение клиента с учётом контекста диалога. Не здоровайся повторно, разговор уже идёт."
+    : txt;
+
   try {
     const ans = await answerWithLLM({
-      question: txt,
+      question: questionForLlm,
       faqPairs,
       chatHistory,
     });
