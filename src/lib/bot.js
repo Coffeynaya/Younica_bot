@@ -163,12 +163,15 @@ function leadSummary(lead, leadId) {
     lead.name ? `Имя: ${lead.name}` : null,
     lead.phone ? `Телефон: ${lead.phone}` : null,
     lead.email ? `Email: ${lead.email}` : null,
+    lead.contact_method ? `Предпочитаемый способ связи: ${lead.contact_method}` : null,
     lead.message ? `Сообщение: ${lead.message}` : null,
     lead.tg_username ? `Telegram: @${lead.tg_username}` : null,
     lead.tg_user_id ? `UserID: ${lead.tg_user_id}` : null,
   ].filter(Boolean);
   return lines.join("\n");
 }
+
+const CANCEL_PATTERN = /^(отмена|отменить|не хочу|не надо|назад|стоп|cancel|передумал[аи]?)$/i;
 
 export async function createBot({ db }) {
   const token = mustEnv("TELEGRAM_BOT_TOKEN");
@@ -365,6 +368,15 @@ export async function createBot({ db }) {
 
     // Lead Flow
     if (state.startsWith("lead_")) {
+      if (CANCEL_PATTERN.test(txt)) {
+        db.settings.set(`state:${ctx.from.id}`, "");
+        db.settings.set(`lead:${ctx.from.id}`, "{}");
+        return ctx.reply(
+          "Хорошо, заявка отменена. Если передумаете — нажмите «📩 Оставить заявку». Чем ещё могу помочь?",
+          mainKeyboard()
+        );
+      }
+
       const raw = db.settings.get(`lead:${ctx.from.id}`) || "{}";
       const lead = JSON.parse(raw);
 
@@ -372,18 +384,35 @@ export async function createBot({ db }) {
         lead.name = txt;
         db.settings.set(`lead:${ctx.from.id}`, JSON.stringify(lead));
         db.settings.set(`state:${ctx.from.id}`, "lead_phone");
-        return ctx.reply("Телефон для связи? (можно с +)", mainKeyboard());
+        return ctx.reply(
+          "Телефон для связи? (можно с +)\n\nЕсли не хотите указывать — напишите «Нет».",
+          mainKeyboard()
+        );
       }
 
       if (state === "lead_phone") {
-        lead.phone = txt;
+        if (txt.toLowerCase() !== "нет") lead.phone = txt;
         db.settings.set(`lead:${ctx.from.id}`, JSON.stringify(lead));
         db.settings.set(`state:${ctx.from.id}`, "lead_email");
-        return ctx.reply('Email (если не хотите указывать — напишите "Нет")', mainKeyboard());
+        return ctx.reply(
+          "Email для связи?\n\nЕсли не хотите указывать — напишите «Нет».",
+          mainKeyboard()
+        );
       }
 
       if (state === "lead_email") {
         if (txt.toLowerCase() !== "нет") lead.email = txt;
+        db.settings.set(`lead:${ctx.from.id}`, JSON.stringify(lead));
+        db.settings.set(`state:${ctx.from.id}`, "lead_contact_method");
+        return ctx.reply(
+          "Как вам удобнее общаться?\n\n1 — Телефон\n2 — Email\n3 — Telegram/WhatsApp\n\nНапишите номер или название.",
+          mainKeyboard()
+        );
+      }
+
+      if (state === "lead_contact_method") {
+        const methodMap = { "1": "Телефон", "2": "Email", "3": "Мессенджер (Telegram/WhatsApp)" };
+        lead.contact_method = methodMap[txt] || txt;
         db.settings.set(`lead:${ctx.from.id}`, JSON.stringify(lead));
         db.settings.set(`state:${ctx.from.id}`, "lead_message");
         return ctx.reply(
@@ -416,7 +445,7 @@ export async function createBot({ db }) {
         }
 
         return ctx.reply(
-          "Спасибо! Заявка принята. В ближайшее время менеджер свяжется с вами и уточнит детали.",
+          `Спасибо, ${lead.name || ""}! Заявка принята. Менеджер свяжется с вами в течение рабочего дня${lead.contact_method ? " удобным для вас способом (" + lead.contact_method + ")" : ""}. Если появятся ещё вопросы — пишите, буду рад помочь!`,
           mainKeyboard()
         );
       }
