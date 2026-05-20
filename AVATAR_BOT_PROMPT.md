@@ -389,9 +389,277 @@ Telegram менеджера: [@username]
 |--------|----------|---------------------|
 | HeyGen Enterprise | Создание аватаров + генерация видео | От $5 (pay-as-you-go) |
 | ProxyAPI | AI-ответы консультанта | ~500-1000 руб/мес |
-| VPS (Timeweb/Selectel) | Хостинг ботов | ~500-1500 руб/мес |
+| VPS (Timeweb/Selectel) | Хостинг всех ботов | ~2000-5000 руб/мес |
 | Домен | bot.example.ru | ~200-500 руб/год |
 | Telegram Bot | Бесплатно | 0 |
+| Wildcard SSL | Через Caddy (бесплатный Let's Encrypt) | 0 |
+
+---
+
+## СЕРВЕРНАЯ ИНФРАСТРУКТУРА И МУЛЬТИКЛИЕНТСКИЙ ДЕПЛОЙ
+
+### Рекомендуемая архитектура
+
+Один мощный VPS обслуживает всех клиентов. Каждый клиент — изолированный Docker Compose проект.
+
+```
+VPS (4 CPU / 8 GB RAM / 80 GB SSD)
+│
+├── /opt/caddy/                        ← Единый reverse proxy для всех клиентов
+│   ├── docker-compose.yml
+│   └── Caddyfile                      ← Все домены: bot.client1.ru, bot.client2.ru ...
+│
+├── /opt/clients/studio-bloom/         ← Клиент 1
+│   ├── docker-compose.yml
+│   ├── .env                           ← Токены, ключи этого клиента
+│   ├── src/lib/
+│   │   ├── bot.js                     ← Консультант (настроен под клиента)
+│   │   ├── client-bot.js              ← Помощник (генерация видео)
+│   │   ├── llm.js                     ← AI-промпт под тон клиента
+│   │   ├── heygen.js                  ← HeyGen API клиент
+│   │   ├── db.js                      ← База данных
+│   │   └── webchatApi.js              ← Виджет для сайта
+│   ├── data/
+│   │   ├── bot.db                     ← SQLite база клиента
+│   │   └── materials/                 ← PDF-бонусы клиента
+│   └── Dockerfile
+│
+├── /opt/clients/coach-alex/           ← Клиент 2
+│   ├── ... (та же структура)
+│
+├── /opt/clients/agency-prime/         ← Клиент 3
+│   ├── ...
+│
+└── /opt/scripts/                      ← Скрипты автоматизации
+    ├── new-client.sh                  ← Создание нового клиента
+    ├── update-all.sh                  ← Обновить всех клиентов
+    └── backup-all.sh                  ← Бэкап всех баз
+```
+
+### Рекомендуемый VPS
+
+| Параметр | До 5 клиентов | 5-15 клиентов | 15+ клиентов |
+|----------|---------------|---------------|--------------|
+| CPU | 2 ядра | 4 ядра | 8 ядер |
+| RAM | 4 GB | 8 GB | 16 GB |
+| SSD | 40 GB | 80 GB | 160 GB |
+| Провайдер | Timeweb / Selectel | Timeweb / Selectel | Selectel / Hetzner |
+| Стоимость | ~1000-1500 руб/мес | ~2000-4000 руб/мес | ~5000-8000 руб/мес |
+
+### Caddyfile (единый для всех клиентов)
+
+```
+# Клиент 1: Studio Bloom
+bot.studiobloom.ru {
+    reverse_proxy localhost:3001
+}
+
+# Клиент 2: Coach Alex
+bot.coachalex.ru {
+    reverse_proxy localhost:3002
+}
+
+# Клиент 3: Agency Prime
+bot.agencyprime.ru {
+    reverse_proxy localhost:3003
+}
+```
+
+Каждый клиент работает на своём порту (3001, 3002, 3003...). Caddy автоматически получает SSL-сертификаты.
+
+### Docker Compose клиента (шаблон)
+
+```yaml
+services:
+  app:
+    build: .
+    container_name: client_studiobloom
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PORT=3001
+```
+
+### .env клиента (шаблон)
+
+```
+PORT=3001
+TELEGRAM_BOT_TOKEN=...токен консультанта...
+TELEGRAM_CLIENT_BOT_TOKEN=...токен клиентского бота...
+MANAGER_CHAT_ID=...id группы менеджера...
+OPENAI_API_KEY=...ключ ProxyAPI...
+OPENAI_BASE_URL=https://api.proxyapi.ru/openai/v1
+HEYGEN_API_KEY=...ключ HeyGen...
+LLM_PROVIDER_ORDER=openai
+CLIENT_NAME=Studio Bloom
+```
+
+### Скрипт создания нового клиента: new-client.sh
+
+```bash
+#!/bin/bash
+# Использование: ./new-client.sh studio-bloom 3001
+
+CLIENT_SLUG=$1    # например: studio-bloom
+CLIENT_PORT=$2    # например: 3001
+
+if [ -z "$CLIENT_SLUG" ] || [ -z "$CLIENT_PORT" ]; then
+    echo "Использование: ./new-client.sh <slug> <port>"
+    echo "Пример: ./new-client.sh studio-bloom 3001"
+    exit 1
+fi
+
+CLIENT_DIR="/opt/clients/$CLIENT_SLUG"
+
+echo "=== Создание клиента: $CLIENT_SLUG (порт $CLIENT_PORT) ==="
+
+# 1. Копируем шаблон
+cp -r /opt/clients/_template "$CLIENT_DIR"
+
+# 2. Устанавливаем порт
+sed -i "s/PORT=3000/PORT=$CLIENT_PORT/" "$CLIENT_DIR/.env"
+
+# 3. Создаём базу данных
+cd "$CLIENT_DIR"
+docker compose build
+docker compose up -d
+
+echo ""
+echo "=== Готово! ==="
+echo "Путь: $CLIENT_DIR"
+echo "Порт: $CLIENT_PORT"
+echo ""
+echo "Следующие шаги:"
+echo "1. Заполните $CLIENT_DIR/.env токенами клиента"
+echo "2. Настройте промпт в $CLIENT_DIR/src/lib/llm.js"
+echo "3. Добавьте домен в /opt/caddy/Caddyfile"
+echo "4. Перезапустите Caddy: cd /opt/caddy && docker compose restart"
+echo "5. Перезапустите клиента: cd $CLIENT_DIR && docker compose restart"
+```
+
+### Скрипт обновления всех клиентов: update-all.sh
+
+```bash
+#!/bin/bash
+# Обновляет базовый код всех клиентов (bot.js, db.js и т.д.)
+
+echo "=== Обновление всех клиентов ==="
+
+for dir in /opt/clients/*/; do
+    if [ "$dir" = "/opt/clients/_template/" ]; then continue; fi
+
+    client=$(basename "$dir")
+    echo "Обновляю: $client"
+
+    # Скачать последнюю версию bot.js из GitHub
+    curl -s -o "$dir/src/lib/bot.js" \
+        https://raw.githubusercontent.com/Coffeynaya/Younica_bot/main/src/lib/bot.js
+
+    # Пересобрать
+    cd "$dir"
+    docker compose build --no-cache -q
+    docker compose up -d
+
+    echo "  ✓ $client обновлён"
+done
+
+echo "=== Все клиенты обновлены ==="
+```
+
+### Скрипт бэкапа: backup-all.sh
+
+```bash
+#!/bin/bash
+# Бэкап баз данных всех клиентов
+
+DATE=$(date +%Y%m%d)
+BACKUP_DIR="/root/backups/$DATE"
+mkdir -p "$BACKUP_DIR"
+
+for dir in /opt/clients/*/; do
+    if [ "$dir" = "/opt/clients/_template/" ]; then continue; fi
+
+    client=$(basename "$dir")
+    if [ -f "$dir/data/bot.db" ]; then
+        cp "$dir/data/bot.db" "$BACKUP_DIR/${client}.db"
+        echo "✓ $client"
+    fi
+done
+
+# Удалить бэкапы старше 30 дней
+find /root/backups/ -maxdepth 1 -type d -mtime +30 -exec rm -rf {} \;
+
+echo "Бэкап сохранён в $BACKUP_DIR"
+```
+
+### Мониторинг: проверка всех клиентов
+
+```bash
+# Добавить в crontab (crontab -e):
+# Каждые 5 минут проверять, что все контейнеры работают
+*/5 * * * * docker ps --format '{{.Names}} {{.Status}}' | grep -v "Up" && echo "ALARM: контейнер упал" | telegram-send --config /root/.telegram-send.conf
+
+# Ежедневный бэкап в 3:00
+0 3 * * * /opt/scripts/backup-all.sh
+```
+
+### Процесс добавления нового клиента (для менеджера)
+
+```
+ЧЕКЛИСТ ЗАПУСКА НОВОГО КЛИЕНТА
+
+Подготовка (менеджер):
+□ Получить все данные по чеклисту заказчика
+□ Создать Telegram-бота у @BotFather (2 штуки)
+□ Зарегистрировать ProxyAPI ключ (или использовать общий)
+□ Получить HeyGen API ключ (или использовать общий)
+□ Определить свободный порт (3001, 3002, ...)
+□ Определить домен (bot.clientname.ru)
+
+Настройка (разработчик / AI-агент):
+□ Запустить: ./new-client.sh <slug> <port>
+□ Заполнить .env токенами
+□ Настроить промпт в llm.js под тон и услуги клиента
+□ Настроить интенты в bot.js (сайт)
+□ Загрузить материалы в data/materials/
+□ Добавить FAQ в базу
+□ Добавить домен в Caddyfile
+□ Настроить A-запись DNS → IP сервера
+□ Протестировать обоих ботов
+□ Вставить виджет на сайт клиента (Tilda/CMS)
+
+После съёмки:
+□ Загрузить видео в HeyGen → обучить аватар
+□ Создать образы через API
+□ Добавить клиента в базу бота-помощника
+□ Отправить клиенту инструкцию и ссылку на бота
+```
+
+---
+
+## МАСШТАБИРОВАНИЕ
+
+### Когда переходить на отдельные серверы
+
+| Сигнал | Действие |
+|--------|----------|
+| RAM > 80% постоянно | Добавить RAM или перенести часть клиентов |
+| CPU > 70% постоянно | Увеличить тариф или разделить на 2 сервера |
+| > 20 клиентов | Выделить отдельный VPS для новых клиентов |
+| Клиент просит SLA/гарантии | Перенести на отдельный VPS |
+| Много генераций видео | Вынести HeyGen-воркер на отдельный сервер |
+
+### Будущие улучшения
+
+- Веб-панель администратора (все клиенты, статусы, баланс)
+- Автоматический биллинг (ЮKassa / Stripe)
+- Уведомления менеджеру о низком балансе клиента
+- CI/CD: push в GitHub → автодеплой на все серверы
+- Общая аналитика: сколько видео сгенерировано, какие образы популярнее
 
 ---
 
